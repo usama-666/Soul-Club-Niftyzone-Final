@@ -11,24 +11,6 @@ const {
 } = require("../controllers/collab");
 const Collab = require("../model/collabSchema");
 
-// where we want to upload images with their name
-
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     return cb(null, path.join(__dirname, "../uploads/collab_images"));
-//     // return cb(null, "../public/images");
-//   },
-//   filename: function (req, file, cb) {
-//     // console.log(file);
-//     return cb(
-//       null,
-//       file.fieldname + "_" + Date.now() + path.extname(file.originalname)
-//     );
-//   },
-// });
-
-// const upload = multer({ storage: storage });
-
 router.post("/collab", async (req, res) => {
   console.log(req.body);
 

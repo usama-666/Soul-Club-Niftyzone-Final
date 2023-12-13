@@ -3,7 +3,7 @@ const { comparePassword, hashPassword } = require("../helper/authHelper");
 const User = require("../model/userSchema");
 
 const registerController = async (req, res) => {
-  const { name, email, phone, password, cpassword, answer } = req.body;
+  const { name, email, phone, password, cpassword } = req.body;
   console.log(req.body);
 
   try {
@@ -22,9 +22,6 @@ const registerController = async (req, res) => {
     }
     if (!phone) {
       return res.send({ message: "Phone no is Required" });
-    }
-    if (!answer) {
-      return res.send({ message: "Answer is Required" });
     }
 
     //check user
@@ -45,7 +42,6 @@ const registerController = async (req, res) => {
       phone,
       password: hashedPassword,
       cpassword: hashedPassword,
-      answer,
     }).save();
 
     res.status(201).send({
@@ -143,45 +139,45 @@ const signinController = async (req, res) => {
   //   }
 };
 
-const forgotPasswordController = async (req, res) => {
-  const { email, newPassword, answer } = req.body;
+// const forgotPasswordController = async (req, res) => {
+//   const { email, newPassword, answer } = req.body;
 
-  if (!email) {
-    res.status(400).send({ message: " Email is required" });
-  }
+//   if (!email) {
+//     res.status(400).send({ message: " Email is required" });
+//   }
 
-  if (!newPassword) {
-    res.status(400).send({ message: " Password is required" });
-  }
+//   if (!newPassword) {
+//     res.status(400).send({ message: " Password is required" });
+//   }
 
-  if (!answer) {
-    res.status(400).send({ message: " Answer is required" });
-  }
-  try {
-    const user = await User.findOne({
-      email,
-      answer,
-    });
-    //validation
-    if (!user) {
-      return res.status(404).send({
-        success: false,
-        message: "Wrong Email and Answer",
-      });
-    }
-    const hashed = await hashPassword(newPassword);
-    await User.findByIdAndUpdate(user._id, { password: hashed });
-    res.status(200).send({
-      success: true,
-      message: "Password Updated Successfully",
-    });
-  } catch (error) {
-    console.log(error);
-    res
-      .status(500)
-      .send({ success: false, message: "Something went Wrong", error });
-  }
-};
+//   if (!answer) {
+//     res.status(400).send({ message: " Answer is required" });
+//   }
+//   try {
+//     const user = await User.findOne({
+//       email,
+//       answer,
+//     });
+//     //validation
+//     if (!user) {
+//       return res.status(404).send({
+//         success: false,
+//         message: "Wrong Email and Answer",
+//       });
+//     }
+//     const hashed = await hashPassword(newPassword);
+//     await User.findByIdAndUpdate(user._id, { password: hashed });
+//     res.status(200).send({
+//       success: true,
+//       message: "Password Updated Successfully",
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res
+//       .status(500)
+//       .send({ success: false, message: "Something went Wrong", error });
+//   }
+// };
 
 ///Test Controller
 
@@ -199,6 +195,6 @@ const testController = (req, res) => {
 module.exports = {
   registerController,
   signinController,
-  forgotPasswordController,
+  // forgotPasswordController,
   testController,
 };
